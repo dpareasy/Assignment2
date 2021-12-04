@@ -3,9 +3,9 @@
 #include "sensor_msgs/LaserScan.h"
 
 #define RIGHT_DIM 40
-#define FRONT_RIGHT_DIM 260
-#define FRONT_DIM 120
-#define FRONT_LEFT_DIM 260
+#define FRONT_RIGHT_DIM 240
+#define FRONT_DIM 160
+#define FRONT_LEFT_DIM 240
 #define LEFT_DIM 40
 
 float right_dist[RIGHT_DIM];
@@ -86,19 +86,19 @@ void Callback(const sensor_msgs::LaserScan::ConstPtr& msg)//we have a pointer of
 	geometry_msgs::Twist my_vel;
 
 	//if(right_dist)
-	my_vel.linear.x = 2.0;
+	my_vel.linear.x = 4.0;
 
 	if (min_front < dist_min)
 	{
 		if(min_right > min_left)
 		{
-			my_vel.linear.x = 0.4;
-			my_vel.angular.z = -0.8;
+			my_vel.linear.x = 0.6;
+			my_vel.angular.z = -2.0;
 		}
 		if(min_right < min_left)
 		{
-			my_vel.linear.x = 0.4;
-			my_vel.angular.z = 0.8;
+			my_vel.linear.x = 0.6;
+			my_vel.angular.z = 2.0;
 		}
 	}
 	
