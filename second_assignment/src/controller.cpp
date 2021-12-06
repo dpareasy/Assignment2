@@ -2,6 +2,7 @@
 #include "second_assignment/Velocity.h"
 #include "geometry_msgs/Twist.h"//we are going to subscribe 
 #include "sensor_msgs/LaserScan.h"
+#include "std_srvs/Empty.h"
 
 //defining the dimension of each array for visual ranges
 #define RIGHT_DIM 40
