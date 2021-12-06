@@ -1,4 +1,5 @@
 #include "ros/ros.h"
+#include "second_assignment/Velocity.h"
 #include "geometry_msgs/Twist.h"//we are going to subscribe 
 #include "sensor_msgs/LaserScan.h"
 
@@ -19,12 +20,24 @@ float left_dist[LEFT_DIM];
 //Trheshold distance  from the wall setted to 1. 
 //This is the maximum distance from which the robot can approaches
 float dist_min = 1;
-float default_velocity = 1.0;
+float max_linear_velocity = 5.0;
+float max_angular_velocity = 2.5;
+
+int count = 10;
 
 //The publisher is defined as global variable because 
 //I have to initialize it in the Main function but 
 //use it in the Callback
 ros::Publisher pub; 
+
+bool change_velocity(second_assignment::Velocity::Request &req, second_assignment::Velocity::Response &res){
+	res.x = req.req_velocity;
+	res.z = req.req_velocity;
+
+	max_linear_velocity = res.x;
+	max_angular_velocity = res.z;
+	return true;
+}
 
 void Callback(const sensor_msgs::LaserScan::ConstPtr& msg)//we have a pointer of type sensor_msgs::LaserScan---the specific message that I'm going to receive
 {
@@ -92,21 +105,22 @@ void Callback(const sensor_msgs::LaserScan::ConstPtr& msg)//we have a pointer of
 				min_left = left_dist[i];
 		}
 	geometry_msgs::Twist my_vel;
-
-	//
-	my_vel.linear.x = 5*default_velocity;
-
+	second_assignment::Velocity vel_srv;
+	
+	my_vel.linear.x = max_linear_velocity;
+	//my_vel.linear.x = 5;
+		
 	if (min_front < dist_min)
 	{
 		if(min_right > min_left)
 		{
-			my_vel.linear.x = 0.3*default_velocity;
-			my_vel.angular.z = -2.5*default_velocity;
+			my_vel.linear.x = 0.1*max_linear_velocity;
+			my_vel.angular.z = - max_angular_velocity;
 		}
 		if(min_right < min_left)
 		{
-			my_vel.linear.x = 0.3*default_velocity;
-			my_vel.angular.z = 2.5*default_velocity;
+			my_vel.linear.x = 0.1*max_linear_velocity;
+			my_vel.angular.z = max_angular_velocity;
 		}
 	}
 	pub.publish(my_vel);
@@ -122,7 +136,8 @@ int main(int argc, char **argv)
 	//define the subscriber to compute the distance from walls
 	ros::Subscriber sub = nh.subscribe("/base_scan", 1, Callback);//the topic in which the other nodes use to publish their position 
 	pub = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
+	ros::ServiceServer service = nh.advertiseService("/velocity", change_velocity);
 	ros::spin();
 
-		return 0;
+	return 0;
 }
