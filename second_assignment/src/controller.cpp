@@ -20,7 +20,7 @@ float left_dist[LEFT_DIM];
 //Trheshold distance  from the wall setted to 1. 
 //This is the maximum distance from which the robot can approaches
 float dist_min = 1;
-float max_linear_velocity = 5.0;
+float max_linear_velocity = 2.0;
 float max_angular_velocity = 2.5;
 
 int count = 10;
@@ -34,8 +34,8 @@ bool change_velocity(second_assignment::Velocity::Request &req, second_assignmen
 	res.x = req.req_velocity;
 	res.z = req.req_velocity;
 
-	max_linear_velocity = res.x;
-	max_angular_velocity = res.z;
+	max_linear_velocity = max_linear_velocity + res.x;
+	max_angular_velocity = max_angular_velocity + res.z;
 	return true;
 }
 

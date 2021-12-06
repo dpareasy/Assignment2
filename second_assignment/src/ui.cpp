@@ -13,21 +13,45 @@ int main(int argc, char **argv)
 	client = nh.serviceClient<second_assignment::Velocity>("/velocity");
     
 
-    cout<<"Set a velocity between 1 and 10\n"<<endl;
+    cout << "Velocity controller, press:\n a) if you want to increase velocity\n b) if you want to decrease velocity\n q)if you want to quit the program " << endl;
     float val;
+    char choice;
 
     second_assignment::Velocity vel_srv;
+    
     while(1)
     {
-        cin >> val;
-        if(val < 1 || val > 10)
-            cout<<"Input not valid, retry\n"<<endl;
-        else if(val == 5)
-            return 1;
-        vel_srv.request.req_velocity = val;
-        client.waitForExistence();
-        client.call(vel_srv);
+        
+        cin >> choice;
+        switch(choice)
+        {
+            case 'A':
+            case 'a':
+                cout << "increasing velocity\n"<<endl;
+                val = 1.0;
+                vel_srv.request.req_velocity = val;
+                client.waitForExistence();
+                client.call(vel_srv);
+                break;
+            case 'B':
+            case 'b':
+                cout<<"decreasing velocity\n"<<endl;
+                val = -1.0;
+                vel_srv.request.req_velocity = val;
+                client.waitForExistence();
+                client.call(vel_srv);
+                break;
+            case 'Q':
+            case 'q':
+                cout << "Program exiting...\n"<<endl;
+                return 1;
+                break;
+            default:
+                cout<<"Invalid input, retry\n"<<endl;
+                break;        
+
+        }
+        
     }
-   // ros::spin();
-		return 0;
+    return 0;
 }
