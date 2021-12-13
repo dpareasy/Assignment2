@@ -23,9 +23,9 @@ The architecture should rely on:
 
 In particular, the folder src contains:
 
-* controller.cpp: This is the principal node that controls robot behavior
+- controller.cpp: This is the principal node that controls robot behavior
 
-* ui.cpp: this is the user interface node that allows the user to change the robots linear and angular velocity and also makes him able to reset the robot position and quit all the programs
+- ui.cpp: this is the user interface node that allows the user to change the robots linear and angular velocity and also makes him able to reset the robot position and quit all the programs
 
 ## How to run ##
 
