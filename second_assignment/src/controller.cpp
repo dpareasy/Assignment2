@@ -36,7 +36,9 @@ bool change_velocity(second_assignment::Velocity::Request &req, second_assignmen
 	res.z = req.req_velocity;
 
 	max_linear_velocity = max_linear_velocity + res.x;
+	std::cout << "\nlinear velocity = "<< max_linear_velocity;
 	max_angular_velocity = max_angular_velocity + res.z;
+	std::cout << "\tangular velocity = "<< max_angular_velocity <<"\n"<<std::endl;
 	return true;
 }
 
@@ -81,24 +83,14 @@ void Callback(const sensor_msgs::LaserScan::ConstPtr& msg)//we have a pointer of
 			if(min_right > right_dist[i])
 				min_right = right_dist[i];
 		}
-		float min_front_right = front_right_dist[0];
-		for(int i=0; i<FRONT_RIGHT_DIM; i++)
-		{
-			if(min_front_right > front_right_dist[i])
-				min_front_right = front_right_dist[i];
-		}
+		
 		float min_front = front_dist[0];
 		for(int i=0; i<FRONT_DIM; i++)
 		{
 			if(min_front > front_dist[i])
 				min_front = front_dist[i];
 		}
-		float min_front_left = front_left_dist[0];
-		for(int i=0; i<FRONT_LEFT_DIM; i++)
-		{
-			if(min_front_left > front_left_dist[i])
-				min_front_left = front_left_dist[i];
-		}
+		
 		float min_left = left_dist[0];
 		for(int i=0; i<LEFT_DIM; i++)
 		{
@@ -107,10 +99,9 @@ void Callback(const sensor_msgs::LaserScan::ConstPtr& msg)//we have a pointer of
 		}
 	geometry_msgs::Twist my_vel;
 	second_assignment::Velocity vel_srv;
-	
+
 	my_vel.linear.x = max_linear_velocity;
-	//my_vel.linear.x = 5;
-		
+
 	if (min_front < dist_min)
 	{
 		if(min_right > min_left)
