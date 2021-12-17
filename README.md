@@ -76,6 +76,8 @@ array1 = right side
 array3 = front
 array5 = left side
 
+compute minimum value for each of the three arrays
+
 initial velocity equal to zero
 angular velocity = 0
 
