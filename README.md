@@ -2,7 +2,7 @@
 ================================
 Parisi Davide Leo 4329668 
 
-This assignment requires the development of a software architecture, in c++ language, using ROS operating system to constraints drive a robot around a particular environment. The software relies on type message sensor_msgs/LaserScan to computing the distances of the robot from the wall and on type message geometry_msgs/Twist for setting robot velocity around the circuit.
+This assignment requires the development of a software architecture, in c++ language, using ROS operating system to constraints drive a robot around a particular environment. The software relies on sensor_msgs package to computing the distances of the robot from the wall and on geometry_msgs package for setting robot velocity around the circuit.
 The architecture should rely on:
 
 * A node for the control of the robot
@@ -15,7 +15,7 @@ The architecture should rely on:
 
 * `launch`: this is a folder containing the .launch extension file needed to launch the simulation
 
-* `world`: this is a folder containing the world in which the robot should move
+* `world`: this is a folder containing the enviroment in which the robot should move
 
 * `srv`: this is a folder containing the service created for changing velocity
 
@@ -37,11 +37,11 @@ To run the script in the simulator, use simply a .launch script that executes th
 $ roslaunch second_assignment run.launch
 ```
 where `second_assignment` is the name of the package created for this assignment and `run.launch` is the launch script.
-Whit this command roscore is launched by default.
+Whit this command, roscore is launched by default.
 
 ## Robot behavior ##
 
-When the user launches the simulation, the robot is spawned in a pre-built environment waiting for input from the user to start moving. The robot is equipped with a laser scanner that allows to constantly control the distances from the walls in an angular range of 180 degrees. From the ui.cpp node, the user can change the velocity of the robot moving around the circuit. It can also reset the robot position, which will restart his run with the last velocity registered before the reset command. Here I imposed a minimum velocity equal to zero and a maximum one equal to 8. If the velocity is at its maximum value it is reasonable to see the robot crash into the wall when it is on the narrowest curve, while if the velocity is at a reasonable value, the robot never looses its control.
+When the user launches the simulation, the robot is spawned in a pre-built environment waiting for input from the user to start moving. The robot is equipped with a laser scanner that allows to constantly control the distances from the walls in an angular range of 180 degrees. From the ui.cpp node, the user can change the velocity of the robot moving around the circuit. It can also reset the robot position, which will restart his run with the last velocity registered before the reset command. Here I imposed a minimum velocity equal to zero and a maximum one equal to 8. If the velocity is at its maximum value it is reasonable to see the robot crash into the wall when it is curving, while if the velocity is at a reasonable value, the robot never looses its control.
 
 ![Flowchart](https://user-images.githubusercontent.com/92155300/146471511-fd1c2e09-8511-4c41-a4b9-8dcdabb47073.jpg)
 
@@ -63,23 +63,25 @@ if (Client send a request)
 
     if(request == 1 && velocity < MAX_VELOCITY)
         save value of incremented velocity
-    else velocity equal to max velocity 
+    else 
+        velocity equal to max velocity 
+    
     if(request == 2 && velocity > MIN_VELOCITY)
         save value of decremented velocity
-    else velocity equal to min velocity
+    else 
+        velocity equal to min velocity
 
     send response to user interface
 
 
-Divide ranges array into five subarray
+Divide ranges array into five subarrays
 array1 = right side
 array3 = front
 array5 = left side
 
 compute minimum value for each of the three arrays
 
-initial velocity equal to zero
-angular velocity = 0
+initial linear velocity equal to zero
 
 if (front <= threashold)
     if(right side > left side)
@@ -114,5 +116,5 @@ while (1)
 ```
 ## Possible improvements ##
 
-One possible improvement for this project could be to add controls to make the robot able to move in the middle of the circuit. In fact, during its ride, the robot tends towards the roadside edge.
+One possible improvement for this project could be to add other controls to make the robot able to move in the middle of the circuit. In fact, during its ride, the robot tends towards the roadside edge.
 
