@@ -1,6 +1,6 @@
 #include "ros/ros.h"
 #include "second_assignment/Velocity.h"
-#include "geometry_msgs/Twist.h"//we are going to subscribe 
+#include "geometry_msgs/Twist.h"
 #include "sensor_msgs/LaserScan.h"
 #include "std_srvs/Empty.h"
 
@@ -20,14 +20,14 @@
 #define MIN_ANGULAR_VELOCITY 0
 
 
-//Here, as global variable are defined the array for visual ranges
+//Here, as global variable are defined the arrays for visual ranges
 float right_dist[RIGHT_DIM];
 float front_right_dist[FRONT_RIGHT_DIM];
 float front_dist[FRONT_DIM];
 float front_left_dist[FRONT_LEFT_DIM];
 float left_dist[LEFT_DIM];
 
-//Trheshold distance  from the wall setted to 1. 
+//Trheshold distance from the wall setted to 1. 
 //This is the maximum distance from which the robot can approaches
 float dist_min = 1;
 //declaration of linear and angular velocity as
@@ -37,16 +37,21 @@ float angular_velocity;
 
 //The publisher is defined as global variable because 
 //I have to initialize it in the Main function but 
-//use it in the Callback
+//use it also in the Callback function
 ros::Publisher pub; 
 
 bool change_velocity(second_assignment::Velocity::Request &req, second_assignment::Velocity::Response &res){
 	//getting the request from the client and give an answer
 	//answer handling:
+	
 	//If answer value is equal to 1
 	//then increase linear and angular velocity after
 	//a control. Velocity can be increased only if it is
-	// lower than maximum velocity 
+	//lower than maximum velocity 
+
+	//defining a bool variable returning true if 
+	//velocity can be changed and false if it cannot 
+	//be changed
 	res.succeded = true;
 	if(req.req_change_velocity == 1.0)
 	{
@@ -58,6 +63,7 @@ bool change_velocity(second_assignment::Velocity::Request &req, second_assignmen
 		else
 		{
 			linear_velocity = MAX_LINEAR_VELOCITY;
+			//velocity is already at maximum value
 			res.succeded = false;
 		}
 		//increase angular velocity 
@@ -68,6 +74,7 @@ bool change_velocity(second_assignment::Velocity::Request &req, second_assignmen
 		else
 		{
 			angular_velocity = MAX_ANGULAR_VELOCITY;
+			//velocity is already at maximum value
 			res.succeded = false;
 		}
 	}
@@ -85,6 +92,7 @@ bool change_velocity(second_assignment::Velocity::Request &req, second_assignmen
 		else
 		{
 			linear_velocity = MIN_LINEAR_VELOCITY;
+			//velocity is already at minimum value
 			res.succeded = false;
 		}
 		//decrease angular velocity 
@@ -95,6 +103,7 @@ bool change_velocity(second_assignment::Velocity::Request &req, second_assignmen
 		else
 		{
 			angular_velocity = MIN_ANGULAR_VELOCITY;
+			//velocity is already at minimum value
 			res.succeded = false;
 		}
 	}
@@ -159,7 +168,6 @@ void Callback(const sensor_msgs::LaserScan::ConstPtr& msg)//we have a pointer of
 		if(min_left > left_dist[i])
 			min_left = left_dist[i];
 	}
-		
 	geometry_msgs::Twist my_vel;
 	second_assignment::Velocity vel_srv;
 	//declaration and initialization of linear and angular velocity 
@@ -186,8 +194,6 @@ void Callback(const sensor_msgs::LaserScan::ConstPtr& msg)//we have a pointer of
 	pub.publish(my_vel);
 	
 }
-
-
 int main(int argc, char **argv)
 {
 	//initialize the node, setup the NodeHandle for handling the communication with the ROS system

@@ -31,10 +31,8 @@ int main(int argc, char **argv)
     while(1)
     {
         cout << "\nRobot controller, press:" <<endl;
-        cout << "w) if you want to increase linear velocity " <<endl;
-        cout << "s) if you want to decrease linear velocity" <<endl;
-        cout << "a) if you want to increase angular velocity " <<endl;
-        cout << "d) if you want to decrease angular velocity " <<endl;
+        cout << "a) if you want to increase velocity " <<endl;
+        cout << "d) if you want to decrease velocity " <<endl;
         cout << "r) if you want to reset the position " <<endl;
         cout << "q) if you want to quit the program " <<endl;
         cout << "command chosen: ";
@@ -49,16 +47,17 @@ int main(int argc, char **argv)
         {
             case 'A':
             case 'a':
-                //cout << "\nVelocity has been increased"<<endl;
                 val = 1.0;
                 vel_srv.request.req_change_velocity = val;
                 client1.waitForExistence();
                 client1.call(vel_srv);
+                //if velocity has been increased print current velocity 
                 if (vel_srv.response.succeded)
                 {
                     cout<<"Velocity has been increased: "<<endl;
                     cout<<"linear velocity: "<<vel_srv.response.resp_change_velocityx<< "  " <<"angular velocity: "<<vel_srv.response.resp_change_velocityz<<endl;
                 }
+                //else inform the user that it cannot increment velocity
                 else
                 {
                     cout<<"Maximum velocity reached"<<endl;
@@ -66,16 +65,17 @@ int main(int argc, char **argv)
                 break;
             case 'D':
             case 'd':
-                //cout<<"\nVelocity has been decreased"<<endl;
                 val = 2.0;
                 vel_srv.request.req_change_velocity = val;
                 client1.waitForExistence();
                 client1.call(vel_srv);
+                //if velocity has been decreased print current velocity 
                 if (vel_srv.response.succeded)
                 {
                     cout<<"Velocity has been decreased: "<<endl;
                     cout<<"linear velocity: "<<vel_srv.response.resp_change_velocityx<< "  " <<"angular velocity: "<<vel_srv.response.resp_change_velocityz<<endl;
                 }
+                //else inform the user that it cannot decrement velocity
                 else
                 {
                     cout<<"Minimum velocity reached"<<endl;
