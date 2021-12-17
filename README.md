@@ -41,7 +41,7 @@ Whit this command roscore is launched by default.
 
 ## Robot behavior ##
 
-When the user launches the simulation, the robot is spawned in a pre-built environment waiting for input from the user to start moving. The robot is equipped with a laser scanner that allows to constantly control the distances from the walls in an angular range of 180 degrees. From the ui.cpp node, the user can change the velocity of the robot moving around the circuit. It can also reset the robot position, which will restart his run with the last velocity registered before the reset command. Here I imposed a minimum velocity equal to zero and a maximum one equal to 8. If the velocity is at its maximum value it is reasonable to see the robot crash into the wall when it is on the narrowst curve, while if the velocity is at a reasonable value, the robot never looses its control.
+When the user launches the simulation, the robot is spawned in a pre-built environment waiting for input from the user to start moving. The robot is equipped with a laser scanner that allows to constantly control the distances from the walls in an angular range of 180 degrees. From the ui.cpp node, the user can change the velocity of the robot moving around the circuit. It can also reset the robot position, which will restart his run with the last velocity registered before the reset command. Here I imposed a minimum velocity equal to zero and a maximum one equal to 8. If the velocity is at its maximum value it is reasonable to see the robot crash into the wall when it is on the narrowest curve, while if the velocity is at a reasonable value, the robot never looses its control.
 
 ![Flowchart](https://user-images.githubusercontent.com/92155300/146471511-fd1c2e09-8511-4c41-a4b9-8dcdabb47073.jpg)
 
