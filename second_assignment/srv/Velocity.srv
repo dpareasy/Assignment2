@@ -1,4 +1,5 @@
 float32 req_change_velocity
 ---
-float32 resp_change_velocity
-
+float32 resp_change_velocityx
+float32 resp_change_velocityz
+bool succeded

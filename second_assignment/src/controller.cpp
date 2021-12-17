@@ -42,74 +42,72 @@ ros::Publisher pub;
 
 bool change_velocity(second_assignment::Velocity::Request &req, second_assignment::Velocity::Response &res){
 	//getting the request from the client and give an answer
-	res.resp_change_velocity = req.req_change_velocity;
 	//answer handling:
 	//If answer value is equal to 1
 	//then increase linear and angular velocity after
 	//a control. Velocity can be increased only if it is
 	// lower than maximum velocity 
-	if(res.resp_change_velocity == 1.0)
+	res.succeded = true;
+	if(req.req_change_velocity == 1.0)
 	{
 		//increasing linear velocity 
 		if(linear_velocity < MAX_LINEAR_VELOCITY)
 		{
 			linear_velocity = linear_velocity + 1;
-			std::cout << "linear velocity: "<< linear_velocity <<std::endl;
 		}
 		else
 		{
 			linear_velocity = MAX_LINEAR_VELOCITY;
-			std::cout << "Max linear velocity reached "<<std::endl;
+			res.succeded = false;
 		}
 		//increase angular velocity 
 		if(angular_velocity < MAX_ANGULAR_VELOCITY)
 		{
 			angular_velocity = angular_velocity + 1;
-			std::cout << "linear velocity: "<< angular_velocity <<std::endl;
 		}
 		else
 		{
 			angular_velocity = MAX_ANGULAR_VELOCITY;
-			std::cout << "Max angular velocity reached "<<std::endl;
+			res.succeded = false;
 		}
 	}
 	//If answer value is equal to 2
 	//then decrease linear and angular velocity after
 	//a control. Velocity can be decreased only if it is
 	// higher than minimum velocity 
-	if(res.resp_change_velocity == 2.0)
+	if(req.req_change_velocity == 2.0)
 	{
 		//decreasing linear velocity 
 		if(linear_velocity > MIN_LINEAR_VELOCITY)
 		{
 			linear_velocity = linear_velocity - 1;
-			std::cout << "linear velocity: "<< linear_velocity <<std::endl;
 		}
 		else
 		{
 			linear_velocity = MIN_LINEAR_VELOCITY;
-			std::cout << "Min linear velocity reached "<<std::endl;
+			res.succeded = false;
 		}
 		//decrease angular velocity 
 		if(angular_velocity > MIN_ANGULAR_VELOCITY)
 		{
 			angular_velocity = angular_velocity - 1;
-			std::cout << "linear velocity: "<< angular_velocity <<std::endl;
 		}
 		else
 		{
 			angular_velocity = MIN_ANGULAR_VELOCITY;
-			std::cout << "Min angular velocity reached "<<std::endl;
+			res.succeded = false;
 		}
 	}
-	
+	//saving server response
+	res.resp_change_velocityx = linear_velocity;
+	res.resp_change_velocityz = angular_velocity;
 	return true;
 }
 
 void Callback(const sensor_msgs::LaserScan::ConstPtr& msg)//we have a pointer of type sensor_msgs::LaserScan---the specific message that I'm going to receive
 {
 	//Here each array for visual ranges is created. I decided to divide the visual field of the robot in 5 sections
-	//but for make it avoid distances front_right_distance and front_left_distance is not used.
+	//but for make it avoid obstacles front_right_distance and front_left_distance sre not used.
 	for (int i = 0; i < msg->ranges.size(); i++) 
 	{
 		//The array for the right visual field. It is between an agle of 170 and 180 degrees.
@@ -138,29 +136,30 @@ void Callback(const sensor_msgs::LaserScan::ConstPtr& msg)//we have a pointer of
 			left_dist[n] = msg->ranges[i++];
 		}
 	}
-		//To know the direction in which to move the robot,
-		//it is required to know the minimum distance from the wall in each field.
-		//To do this it is simply needed to check the minimum value for each array.
-		float min_right = right_dist[0];
-		for(int i=0; i<RIGHT_DIM; i++)
-		{
-			if(min_right > right_dist[i])
-				min_right = right_dist[i];
-		}
+	//To know the direction in which to move the robot,
+	//it is required to know the minimum distance from the wall in each field.
+	//To do this it is simply needed to check the minimum value for each array.
+	float min_right = right_dist[0];
+	for(int i=0; i<RIGHT_DIM; i++)
+	{
+		if(min_right > right_dist[i])
+			min_right = right_dist[i];
+	}
+	
+	float min_front = front_dist[0];
+	for(int i=0; i<FRONT_DIM; i++)
+	{
+		if(min_front > front_dist[i])
+			min_front = front_dist[i];
+	}
 		
-		float min_front = front_dist[0];
-		for(int i=0; i<FRONT_DIM; i++)
-		{
-			if(min_front > front_dist[i])
-				min_front = front_dist[i];
-		}
+	float min_left = left_dist[0];
+	for(int i=0; i<LEFT_DIM; i++)
+	{
+		if(min_left > left_dist[i])
+			min_left = left_dist[i];
+	}
 		
-		float min_left = left_dist[0];
-		for(int i=0; i<LEFT_DIM; i++)
-		{
-			if(min_left > left_dist[i])
-				min_left = left_dist[i];
-		}
 	geometry_msgs::Twist my_vel;
 	second_assignment::Velocity vel_srv;
 	//declaration and initialization of linear and angular velocity 

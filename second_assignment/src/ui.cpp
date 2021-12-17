@@ -49,19 +49,37 @@ int main(int argc, char **argv)
         {
             case 'A':
             case 'a':
-                cout << "\nVelocity has been increased"<<endl;
+                //cout << "\nVelocity has been increased"<<endl;
                 val = 1.0;
                 vel_srv.request.req_change_velocity = val;
                 client1.waitForExistence();
                 client1.call(vel_srv);
+                if (vel_srv.response.succeded)
+                {
+                    cout<<"Velocity has been increased: "<<endl;
+                    cout<<"linear velocity: "<<vel_srv.response.resp_change_velocityx<< "  " <<"angular velocity: "<<vel_srv.response.resp_change_velocityz<<endl;
+                }
+                else
+                {
+                    cout<<"Maximum velocity reached"<<endl;
+                }
                 break;
             case 'D':
             case 'd':
-                cout<<"\nVelocity has been decreased"<<endl;
+                //cout<<"\nVelocity has been decreased"<<endl;
                 val = 2.0;
                 vel_srv.request.req_change_velocity = val;
                 client1.waitForExistence();
                 client1.call(vel_srv);
+                if (vel_srv.response.succeded)
+                {
+                    cout<<"Velocity has been decreased: "<<endl;
+                    cout<<"linear velocity: "<<vel_srv.response.resp_change_velocityx<< "  " <<"angular velocity: "<<vel_srv.response.resp_change_velocityz<<endl;
+                }
+                else
+                {
+                    cout<<"Minimum velocity reached"<<endl;
+                }
                 break;
             case 'R':
             case 'r':
@@ -78,7 +96,6 @@ int main(int argc, char **argv)
                 cout<<"\nInvalid input, retry\n"<<endl;
                 break;
         }
-       
     }
     return 0;
 }
