@@ -2,7 +2,7 @@
 ================================
 Parisi Davide Leo 4329668 
 
-This assignment requires the development of a software architecture, in c++ language, using ROS operating system, to constraints drive a robot around a particular environment. The software relies on type message sensor_msgs/LaserScan for computing the distances of the robot from the wall and on type message geometry_msgs/Twist for setting robot velocity around the circuit.
+This assignment requires the development of a software architecture, in c++ language, using ROS operating system to constraints drive a robot around a particular environment. The software relies on type message sensor_msgs/LaserScan to computing the distances of the robot from the wall and on type message geometry_msgs/Twist for setting robot velocity around the circuit.
 The architecture should rely on:
 
 * A node for the control of the robot
@@ -31,7 +31,7 @@ In particular, the folder `src` contains:
 
 ## How to run ##
 
-To run the script in the simulator, use simply a .launch script that executes the world, the controller node, and the user interface node as follow:
+To run the script in the simulator, use simply a .launch script that executes the world, the controller node and the user interface node as follow:
 
 ```
 $ roslaunch second_assignment run.launch
@@ -48,7 +48,7 @@ When the user launches the simulation, the robot is spawned in a pre-built envir
 
 ## About software architecture ##
 
-This project bases on the use of three different scripts, the /world , the /controller.cpp, and the /ui.cpp. They communicate with each other with messages and services. In particular, the world node uses a message for publishing robot position within the environment in the `base_scan` topic, so that the /controller can read from it. The /controller instead, uses a service for publishing in `cmd_vel` topic the velocity of the robot, so that the world node can read from it. In addition to this, I defined a Service file in the srv directory, named `Velocity.srv`, used in ui.cpp to give the possibility to the user to increment or decrement the robot linear and angular velocity in the circuit. The ui.cpp uses also another service, the `Empty` type of service defined in `std_srvs` package, useful to reset the robot position within the enviroment.
+This project is based on the use of three different scripts, the /world , the /controller.cpp, and the /ui.cpp. They communicate with each other with messages and services. In particular, the world node uses a message for publishing robot position within the environment in the `base_scan` topic, so that the /controller can read from it. The /controller instead, uses a service for publishing in `cmd_vel` topic the velocity of the robot, so that the world node can read from it. In addition to this, I defined a Service file in the srv directory, named `Velocity.srv`, used in ui.cpp to give the possibility to the user to increment or decrement the robot linear and angular velocity in the circuit. The ui.cpp uses also another service, the `Empty` type of service defined in `std_srvs` package, useful to reset the robot position within the enviroment.
 
 ## Pseudocode ##
 
