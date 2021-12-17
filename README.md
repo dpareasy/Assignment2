@@ -48,5 +48,41 @@ When the user launches the simulation, the robot is spawned in a pre-built envir
 
 ## About software architecture ##
 
-This assignment bases on the use of three different scripts, the /world , the /controller.cpp, and the /ui.cpp. They communicate with each other with messages and services. In particular, the world node uses a message for publishing robot position within the environment in the /base_scan topic, so that the /controller can read from it. The /controller instead, uses a service for publishing in /cmd_vel topic the velocity of the robot, so that the world node can read from it. In addition to this, I defined a Service file in the srv directory used to give the possibility to the user to increment or decrement the robot linear and angular velocity in the circuit. The /ui.cpp takes commands as input from the user, then it handles these commands with a switch() and sends a request to the /controller.cpp, which replies with changing the velocities.
+This project bases on the use of three different scripts, the /world , the /controller.cpp, and the /ui.cpp. They communicate with each other with messages and services. In particular, the world node uses a message for publishing robot position within the environment in the `base_scan` topic, so that the /controller can read from it. The /controller instead, uses a service for publishing in `cmd_vel` topic the velocity of the robot, so that the world node can read from it. In addition to this, I defined a Service file in the srv directory, named `Velocity.srv`, used in ui.cpp to give the possibility to the user to increment or decrement the robot linear and angular velocity in the circuit. The ui.cpp uses also another service, the `Empty` type of service defined in `std_srvs` package, useful to reset the robot position within the enviroment.
+
+## Pseudocode ##
+
+### controller.cpp ###
+
+
+```
+define MAX_VELOCITY
+define MIN_VELOCITY
+initialize velocity 
+
+if (Client send a request)
+
+    save request value
+
+    if(request == 1 && velocity < MAX_VELOCITY)
+        save value of incremented velocity
+    if(request == 2 && velocity > MIN_VELOCITY)
+        save value of decremented velocity
+
+
+Divide ranges array into five subarray
+    array1 = right side
+    array3 = front
+    array5 = left side
+
+    initial velocity equal to zero
+    angular velocity = 0
+
+    if (front <= threashold)
+        if(right side > left side)
+            turn right
+        if(left side > right side)
+            turn left
+```
+### ui.cpp ###
 
