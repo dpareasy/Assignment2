@@ -54,7 +54,6 @@ This project bases on the use of three different scripts, the /world , the /cont
 
 ### controller.cpp ###
 
-
 ```
 define MAX_VELOCITY
 define MIN_VELOCITY
@@ -62,27 +61,29 @@ initialize velocity
 
 if (Client send a request)
 
-    save request value
-
     if(request == 1 && velocity < MAX_VELOCITY)
         save value of incremented velocity
+    else velocity equal to max velocity 
     if(request == 2 && velocity > MIN_VELOCITY)
         save value of decremented velocity
+    else velocity equal to min velocity
+
+    send response to user interface
 
 
 Divide ranges array into five subarray
-    array1 = right side
-    array3 = front
-    array5 = left side
+array1 = right side
+array3 = front
+array5 = left side
 
-    initial velocity equal to zero
-    angular velocity = 0
+initial velocity equal to zero
+angular velocity = 0
 
-    if (front <= threashold)
-        if(right side > left side)
-            turn right
-        if(left side > right side)
-            turn left
+if (front <= threashold)
+    if(right side > left side)
+        turn right
+    if(left side > right side)
+        turn left
 ```
 ### ui.cpp ###
 
@@ -92,9 +93,11 @@ while (1)
     switch(choice)
         case 'a':
             send request to increase velocity
+            print the server answer
             break;
         case 'b':
             send request to decrease velocity 
+            print server answer
             break;
         case 'r':
             send request to reset robot position
@@ -107,5 +110,7 @@ while (1)
             ask again to type a correct choice
             break;
 ```
+## Possible improvements ##
 
+One possible improvement for this project could be to add controls for making the robot able to ride in the middle of the circuit. In fact, during its ride, the robot tends towards the roadside edge.
 
