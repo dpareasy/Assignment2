@@ -43,7 +43,7 @@ ros::Publisher pub;
 bool change_velocity(second_assignment::Velocity::Request &req, second_assignment::Velocity::Response &res){
 	//getting the request from the client and give an answer
 	//answer handling:
-	//If answer value is equal to 1
+	//If request value is equal to 1
 	//then increase linear and angular velocity after
 	//a control. Velocity can be increased only if it is
 	// lower than maximum velocity 
@@ -71,7 +71,7 @@ bool change_velocity(second_assignment::Velocity::Request &req, second_assignmen
 			res.succeded = false;
 		}
 	}
-	//If answer value is equal to 2
+	//If request value is equal to 2
 	//then decrease linear and angular velocity after
 	//a control. Velocity can be decreased only if it is
 	// higher than minimum velocity 
