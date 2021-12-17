@@ -11,7 +11,7 @@ ros::ServiceClient client2;
 
 int main(int argc, char **argv)
 {
-    //initialization of the velocity node
+    //initialize the node, setup the NodeHandle for handling the communication with the ROS system
 	ros::init(argc, argv, "change_velocity_node");
 	ros::NodeHandle nh;
 
@@ -24,10 +24,11 @@ int main(int argc, char **argv)
     float val;
     char choice;
 
+    //declaration of variables for messages
     second_assignment::Velocity vel_srv;
     std_srvs::Empty res_pos;
 
-    //while loop for contantly asking the user to insert a command 
+    //while loop for constantly asking the user to insert a command 
     while(1)
     {
         cout << "\nRobot controller, press:" <<endl;
@@ -48,8 +49,11 @@ int main(int argc, char **argv)
             case 'A':
             case 'a':
                 val = 1.0;
+                //saving the value to send to the server in the request 
                 vel_srv.request.req_change_velocity = val;
+                //waiting for service existence
                 client1.waitForExistence();
+                //sending a request 
                 client1.call(vel_srv);
                 //if velocity has been increased print current velocity 
                 if (vel_srv.response.succeded)
@@ -65,6 +69,7 @@ int main(int argc, char **argv)
                 break;
             case 'D':
             case 'd':
+                //the same as for previous case
                 val = 2.0;
                 vel_srv.request.req_change_velocity = val;
                 client1.waitForExistence();
@@ -83,12 +88,14 @@ int main(int argc, char **argv)
                 break;
             case 'R':
             case 'r':
+                //request for resetting position
                 cout << "\nThe position has been resetted"<<endl;
                 client2.waitForExistence();
                 client2.call(res_pos);
                 break;
             case 'Q':
             case 'q':
+                //command for quit the program
                 cout << "\nProgram exiting..."<<endl;
                 return 1;
                 break;

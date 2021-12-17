@@ -19,7 +19,6 @@
 #define MIN_LINEAR_VELOCITY 0
 #define MIN_ANGULAR_VELOCITY 0
 
-
 //Here, as global variable are defined the arrays for visual ranges
 float right_dist[RIGHT_DIM];
 float front_right_dist[FRONT_RIGHT_DIM];
@@ -41,18 +40,18 @@ float angular_velocity;
 ros::Publisher pub; 
 
 bool change_velocity(second_assignment::Velocity::Request &req, second_assignment::Velocity::Response &res){
-	//getting the request from the client and give an answer
-	//answer handling:
-	
-	//If answer value is equal to 1
-	//then increase linear and angular velocity after
-	//a control. Velocity can be increased only if it is
-	//lower than maximum velocity 
-
+		
 	//defining a bool variable returning true if 
 	//velocity can be changed and false if it cannot 
 	//be changed
 	res.succeded = true;
+
+	//getting the request from the client and give an answer
+	//answer handling:
+	//If answer value is equal to 1
+	//then increase linear and angular velocity after
+	//a control. Velocity can be increased only if it is
+	//lower than maximum velocity 
 	if(req.req_change_velocity == 1.0)
 	{
 		//increasing linear velocity 
@@ -74,14 +73,14 @@ bool change_velocity(second_assignment::Velocity::Request &req, second_assignmen
 		else
 		{
 			angular_velocity = MAX_ANGULAR_VELOCITY;
-			//velocity is already at maximum value
+			//angular velocity is already at maximum value
 			res.succeded = false;
 		}
 	}
 	//If answer value is equal to 2
 	//then decrease linear and angular velocity after
 	//a control. Velocity can be decreased only if it is
-	// higher than minimum velocity 
+	//higher than minimum velocity 
 	if(req.req_change_velocity == 2.0)
 	{
 		//decreasing linear velocity 
@@ -113,10 +112,10 @@ bool change_velocity(second_assignment::Velocity::Request &req, second_assignmen
 	return true;
 }
 
-void Callback(const sensor_msgs::LaserScan::ConstPtr& msg)//we have a pointer of type sensor_msgs::LaserScan---the specific message that I'm going to receive
+void Callback(const sensor_msgs::LaserScan::ConstPtr& msg)
 {
 	//Here each array for visual ranges is created. I decided to divide the visual field of the robot in 5 sections
-	//but for make it avoid obstacles front_right_distance and front_left_distance sre not used.
+	//but for make it avoid obstacles front_right_distance and front_left_distance are not used.
 	for (int i = 0; i < msg->ranges.size(); i++) 
 	{
 		//The array for the right visual field. It is between an agle of 170 and 180 degrees.
@@ -172,7 +171,6 @@ void Callback(const sensor_msgs::LaserScan::ConstPtr& msg)//we have a pointer of
 	second_assignment::Velocity vel_srv;
 	//declaration and initialization of linear and angular velocity 
 	my_vel.linear.x = linear_velocity;
-	my_vel.angular.z = 0;
 	//control of front distance from the wall
 	if (min_front < dist_min)
 	{
