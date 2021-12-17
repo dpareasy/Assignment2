@@ -86,3 +86,26 @@ Divide ranges array into five subarray
 ```
 ### ui.cpp ###
 
+```
+while (1)
+    ask the user to type a choice
+    switch(choice)
+        case 'a':
+            send request to increase velocity
+            break;
+        case 'b':
+            send request to decrease velocity 
+            break;
+        case 'r':
+            send request to reset robot position
+            break;
+        case 'q':
+            quit all the programs
+            brak;
+        default:
+            incorrect input
+            ask again to type a correct choice
+            break;
+```
+
+
