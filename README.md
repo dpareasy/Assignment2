@@ -114,5 +114,5 @@ while (1)
 ```
 ## Possible improvements ##
 
-One possible improvement for this project could be to add controls for making the robot able to ride in the middle of the circuit. In fact, during its ride, the robot tends towards the roadside edge.
+One possible improvement for this project could be to add controls to make the robot able to move in the middle of the circuit. In fact, during its ride, the robot tends towards the roadside edge.
 
