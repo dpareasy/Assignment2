@@ -1,6 +1,0 @@
-<launch>
-    <node name = "controller" pkg = "second_assignment" type = "robot_node" output = "screen"/>
-    <node name = "user" pkg = "second_assignment" type = "change_velocity_node" output = "screen" required = "true"/>
-    <node name = "world" pkg = "stage_ros" type = "stageros" args = "$(find second_assignment)/world/my_world.world"/>
-</launch>
-	
