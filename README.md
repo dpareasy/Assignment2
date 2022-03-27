@@ -2,7 +2,7 @@
 ================================
 Parisi Davide Leo 4329668 
 
-This assignment requires the development of a software architecture, in c++ language, using ROS operating system to constraints drive a robot around a particular environment. The software relies on sensor_msgs package to computing the distances of the robot from the wall and on geometry_msgs package for setting robot velocity around the circuit.
+This assignment requires the development of a software architecture, in c++ language, using ROS operating system to constraints drive a robot around a particular environment. 
 The architecture should rely on:
 
 * A node for the control of the robot
@@ -39,7 +39,7 @@ $ roslaunch second_assignment run.launch
 where `second_assignment` is the name of the package created for this assignment and `run.launch` is the launch script.
 Whit this command, roscore is launched by default.
 
-## Robot behavior ##
+## Robot behaviour ##
 
 When the user launches the simulation, the robot is spawned in a pre-built environment waiting for input from the user to start moving. The robot is equipped with a laser scanner that allows to constantly control the distances from the walls in an angular range of 180 degrees. From the ui.cpp node, the user can change the velocity of the robot moving around the circuit. It can also reset the robot position, which will restart his run with the last velocity registered before the reset command. Here I imposed a minimum velocity equal to zero and a maximum one equal to 8. If the velocity is at its maximum value it is reasonable to see the robot crash into the wall when it is curving, while if the velocity is at a reasonable value, the robot never looses its control.
 
