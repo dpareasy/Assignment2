@@ -9,6 +9,7 @@ project(second_assignment)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   message_generation
+  geometry_msgs
   roscpp
   rospy
   stage_ros

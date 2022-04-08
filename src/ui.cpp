@@ -48,6 +48,7 @@ int main(int argc, char **argv)
         {
             case 'A':
             case 'a':
+            	system("clear");
                 val = 1.0;
                 //saving the value to send to the server in the request 
                 vel_srv.request.req_change_velocity = val;
@@ -69,6 +70,7 @@ int main(int argc, char **argv)
                 break;
             case 'D':
             case 'd':
+            	system("clear");
                 //the same as for previous case
                 val = 2.0;
                 vel_srv.request.req_change_velocity = val;
@@ -88,6 +90,7 @@ int main(int argc, char **argv)
                 break;
             case 'R':
             case 'r':
+            	system("clear");
                 //request for resetting position
                 cout << "\nThe position has been resetted"<<endl;
                 client2.waitForExistence();
